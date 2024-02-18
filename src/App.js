@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Box } from '@mui/material';
 import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
 import { IconButton } from '@mui/material';
 function App() {
   const [link, setLink] = useState('');
   const [results, setResults] = useState(null);
-
+  const [examType, setExamType] = useState('Shift1CSE'); // default selected exam type
   const handleCalculateMarks = async () => {
     const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Fallback to localhost for development
     const response = await fetch('https://gate2024scorecalculatorcse-736ed356ac01.herokuapp.com/calculate', {
@@ -15,7 +16,7 @@ function App() {
       },
       //print the link to the console
 
-      body: JSON.stringify({ sheetUrl: link })
+      body: JSON.stringify({ sheetUrl: link, examType: examType })
     });
     const data = await response.json();
     setResults(data);
@@ -54,7 +55,7 @@ function App() {
   <Box display="flex" flexDirection="column" minHeight="100vh">
     <Container maxWidth="md" component="main" sx={{ flex: '1 0 auto' }}>
       <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mt: 4 }}> 
-        GATE 2024 CSE Marks Calculator S2
+        GATE 2024 Marks Calculator (CSE S1/CSE S2/DA)
       </Typography>
       <Typography variant="subtitle1" gutterBottom align="center" sx={{fontWeight: 'bold', fontSize: '1.1rem'}}>
         Developed by Pritish Poswal
@@ -70,6 +71,20 @@ function App() {
           <FaLinkedin size={30} />
         </IconButton>
       </Box>
+      <FormControl component="fieldset" sx={{ margin: '20px 0' }}>
+        <FormLabel component="legend">Select Exam Type</FormLabel>
+        <RadioGroup
+          row
+          aria-label="exam type"
+          name="examType"
+          value={examType}
+          onChange={(e) => setExamType(e.target.value)}
+        >
+          <FormControlLabel value="Shift1CSE" control={<Radio />} label="CSE S1" />
+          <FormControlLabel value="Shift2CSE" control={<Radio />} label="CSE S2" />
+          <FormControlLabel value="DA" control={<Radio />} label="DA" />
+        </RadioGroup>
+      </FormControl>
       <TextField
         fullWidth
         label="Response Sheet Link"

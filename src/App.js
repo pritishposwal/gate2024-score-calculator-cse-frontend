@@ -8,7 +8,7 @@ function App() {
 
   const handleCalculateMarks = async () => {
     const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Fallback to localhost for development
-    const response = await fetch('${apiUrl}/calculate', {
+    const response = await fetch('https://gate2024scorecalculatorcse-736ed356ac01.herokuapp.com/calculate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

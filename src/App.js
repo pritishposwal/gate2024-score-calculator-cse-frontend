@@ -6,17 +6,19 @@ import { IconButton } from '@mui/material';
 function App() {
   const [link, setLink] = useState('');
   const [results, setResults] = useState(null);
-  const [examType, setExamType] = useState('Shift1CSE'); // default selected exam type
+  const [examType, setExamType] = useState('CSE1'); // default selected exam type
   const handleCalculateMarks = async () => {
+    console.log(examType);
     const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Fallback to localhost for development
-    const response = await fetch('https://gate2024scorecalculatorcse-736ed356ac01.herokuapp.com/calculate', {
+    const response = await fetch('http://localhost:3000/calculate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       //print the link to the console
-
+      
       body: JSON.stringify({ sheetUrl: link, examType: examType })
+      
     });
     const data = await response.json();
     setResults(data);
@@ -80,8 +82,8 @@ function App() {
           value={examType}
           onChange={(e) => setExamType(e.target.value)}
         >
-          <FormControlLabel value="Shift1CSE" control={<Radio />} label="CSE S1" />
-          <FormControlLabel value="Shift2CSE" control={<Radio />} label="CSE S2" />
+          <FormControlLabel value="CSE1" control={<Radio />} label="CSE S1" />
+          <FormControlLabel value="CSE2" control={<Radio />} label="CSE S2" />
           <FormControlLabel value="DA" control={<Radio />} label="DA" />
         </RadioGroup>
       </FormControl>

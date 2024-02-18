@@ -7,7 +7,8 @@ function App() {
   const [results, setResults] = useState(null);
 
   const handleCalculateMarks = async () => {
-    const response = await fetch('http://localhost:3000/calculate', {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Fallback to localhost for development
+    const response = await fetch('${apiUrl}/calculate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
